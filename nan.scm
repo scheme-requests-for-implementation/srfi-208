@@ -39,7 +39,7 @@
   (let ((bvec (%real->bytevector nan)))
     (bytevector-u8-set! bvec 1 (bitwise-and #x7
                                             (bytevector-u8-ref bvec 1)))
-    (bytevector-sint-ref bvec 1 (endianness 'big) 7)))
+    (bytevector-uint-ref bvec 1 (endianness 'big) 7)))
 
 (define (nan= nan1 nan2)
   (assume (nan? nan1))
