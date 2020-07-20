@@ -36,12 +36,10 @@
 
 (define (nan-payload nan)
   (assume (nan? nan))
-  (let ((whole-nan (%nan->bytevector nan))
-        (payload (make-bytevector 7 0)))
-    (bytevector-u8-set! payload 0 (bitwise-and #x7
-                                               (bytevector-u8-ref whole-nan 1)))
-    (bytevector-copy! payload 1 whole-nan 2)
-    (bytevector-sint-ref payload 0 (endianness 'big) 7)))
+  (let ((bvec (%nan->bytevector nan)))
+    (bytevector-u8-set! bvec 1 (bitwise-and #x7
+                                            (bytevector-u8-ref bvec 1)))
+    (bytevector-sint-ref bvec 1 (endianness 'big) 7)))
 
 (define (nan= nan1 nan2)
   (assume (nan? nan1))
