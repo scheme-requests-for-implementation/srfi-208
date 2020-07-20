@@ -19,9 +19,9 @@
 ;;; TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ;;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(define (%real->bytevector nan)
+(define (%real->bytevector n)
   (let ((bvec (make-bytevector 8)))
-    (bytevector-ieee-double-set! bvec 0 nan (endianness 'big))
+    (bytevector-ieee-double-set! bvec 0 n (endianness 'big))
     bvec))
 
 (define (nan-negative? nan)
