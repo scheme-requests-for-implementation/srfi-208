@@ -19,6 +19,20 @@
 ;;; TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ;;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+(define (make-nan negative quiet payload)
+  (assume (boolean? negative))
+  (assume (boolean? quiet))
+  (assume (and (exact-integer? payload)
+	       (not (negative? payload))
+	       (< payload (arithmetic-shift 1 51)))
+          "make-nan: invalid payload")
+  (let ((nanv (make-bytevector 8)))
+    (bytevector-u8-set! nanv 0 (if negative #xff #x7f))
+    (bytevector-uint-set! nanv 1 payload (endianness big) 7)
+    (bytevector-u8-set! nanv 1 (bitwise-ior (if quiet #xf8 #xf0)
+					    (bytevector-u8-ref nanv 1)))
+    (bytevector-ieee-double-ref nanv 0 (endianness big))))
+
 (define (%real->bytevector n)
   (let ((bvec (make-bytevector 8)))
     (bytevector-ieee-double-set! bvec 0 n (endianness 'big))
