@@ -19,41 +19,29 @@
 ;;; TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ;;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-;;; nan-bytevector- procedures are exported for testing only.
-
-(define (nan-bytevector-negative? bvec)
-  (bit-set? 7 (bytevector-u8-ref bvec 0)))
-
-(define (nan-bytevector-quiet? bvec)
-  (bit-set? 3 (bytevector-u8-ref bvec 1)))
-
-(define (nan-bytevector-payload bvec)
-  (bytevector-u8-set! bvec 1 (bitwise-and #x7
-                                          (bytevector-u8-ref bvec 1)))
-  (bytevector-uint-ref bvec 1 (endianness big) 7))
-
-(define nan-bytevector= bytevector=?)
-
 (define (%real->bytevector n)
   (let ((bvec (make-bytevector 8)))
     (bytevector-ieee-double-set! bvec 0 n (endianness big))
     bvec))
 
-;;; Exported procedures
-
 (define (nan-negative? nan)
   (assume (nan? nan))
-  (nan-bytevector-negative? (%real->bytevector nan)))
+  (let ((bvec (%real->bytevector nan)))
+    (bit-set? 7 (bytevector-u8-ref bvec 0))))
 
 (define (nan-quiet? nan)
   (assume (nan? nan))
-  (nan-bytevector-quiet? (%real->bytevector nan)))
+  (let ((bvec (%real->bytevector nan)))
+    (bit-set? 3 (bytevector-u8-ref bvec 1))))
 
 (define (nan-payload nan)
   (assume (nan? nan))
-  (nan-bytevector-payload (%real->bytevector nan)))
+  (let ((bvec (%real->bytevector nan)))
+    (bytevector-u8-set! bvec 1 (bitwise-and #x7
+                                            (bytevector-u8-ref bvec 1)))
+    (bytevector-uint-ref bvec 1 (endianness big) 7)))
 
 (define (nan= nan1 nan2)
   (assume (nan? nan1))
   (assume (nan? nan2))
-  (nan-bytevector= (%real->bytevector nan1) (%real->bytevector nan2)))
+  (bytevector=? (%real->bytevector nan1) (%real->bytevector nan2)))

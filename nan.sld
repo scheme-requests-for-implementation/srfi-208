@@ -16,11 +16,6 @@
      (begin
       (define (assume . _) #t))))
 
-  (cond-expand
-    (test
-     (export nan-bytevector-negative? nan-bytevector-quiet?
-             nan-bytevector-payload nan-bytevector=))
-    (else
-     (export nan-negative? nan-quiet? nan-payload nan=)))
+  (export nan-negative? nan-quiet? nan-payload nan=)
 
   (include "nan.scm"))
