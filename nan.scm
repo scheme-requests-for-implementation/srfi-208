@@ -25,16 +25,19 @@
     bvec))
 
 (define (nan-negative? nan)
+  (assume (real? nan))
   (assume (nan? nan))
   (let ((bvec (%real->bytevector nan)))
     (bit-set? 7 (bytevector-u8-ref bvec 0))))
 
 (define (nan-quiet? nan)
+  (assume (real? nan))
   (assume (nan? nan))
   (let ((bvec (%real->bytevector nan)))
     (bit-set? 3 (bytevector-u8-ref bvec 1))))
 
 (define (nan-payload nan)
+  (assume (real? nan))
   (assume (nan? nan))
   (let ((bvec (%real->bytevector nan)))
     (bytevector-u8-set! bvec 1 (bitwise-and #x7
@@ -42,6 +45,8 @@
     (bytevector-uint-ref bvec 1 (endianness big) 7)))
 
 (define (nan= nan1 nan2)
+  (assume (real? nan1))
   (assume (nan? nan1))
+  (assume (real? nan2))
   (assume (nan? nan2))
   (bytevector=? (%real->bytevector nan1) (%real->bytevector nan2)))
