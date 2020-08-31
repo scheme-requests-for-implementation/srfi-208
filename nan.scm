@@ -41,7 +41,7 @@
                                             (bytevector-u8-ref bvec 1)))
     (bytevector-uint-ref bvec 1 (endianness big) 7)))
 
-(define (nan= nan1 nan2)
+(define (nan=? nan1 nan2)
   (assume (nan? nan1))
   (assume (nan? nan2))
   (bytevector=? (%real->bytevector nan1) (%real->bytevector nan2)))

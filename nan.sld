@@ -16,6 +16,6 @@
      (begin
       (define (assume . _) #t))))
 
-  (export nan-negative? nan-quiet? nan-payload nan=)
+  (export nan-negative? nan-quiet? nan-payload nan=?)
 
   (include "nan.scm"))
