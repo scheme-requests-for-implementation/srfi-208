@@ -19,29 +19,32 @@
 ;;; TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ;;; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+(define (real-nan? x)
+  (and (real? x) (nan? x)))
+
 (define (%real->bytevector n)
   (let ((bvec (make-bytevector 8)))
     (bytevector-ieee-double-set! bvec 0 n (endianness big))
     bvec))
 
 (define (nan-negative? nan)
-  (assume (nan? nan))
+  (assume (real-nan? nan))
   (let ((bvec (%real->bytevector nan)))
     (bit-set? 7 (bytevector-u8-ref bvec 0))))
 
 (define (nan-quiet? nan)
-  (assume (nan? nan))
+  (assume (real-nan? nan))
   (let ((bvec (%real->bytevector nan)))
     (bit-set? 3 (bytevector-u8-ref bvec 1))))
 
 (define (nan-payload nan)
-  (assume (nan? nan))
+  (assume (real-nan? nan))
   (let ((bvec (%real->bytevector nan)))
     (bytevector-u8-set! bvec 1 (bitwise-and #x7
                                             (bytevector-u8-ref bvec 1)))
     (bytevector-uint-ref bvec 1 (endianness big) 7)))
 
 (define (nan=? nan1 nan2)
-  (assume (nan? nan1))
-  (assume (nan? nan2))
+  (assume (real-nan? nan1))
+  (assume (real-nan? nan2))
   (bytevector=? (%real->bytevector nan1) (%real->bytevector nan2)))
