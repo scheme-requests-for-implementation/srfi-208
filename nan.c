@@ -24,14 +24,6 @@
 #include <stdio.h>
 #include <math.h>
 
-/* We use type-punning through the following union type to
- * extract the unsigned representation of a double.
- */
-union ieee {
-        uint64_t u;
-        double   d;
-};
-
 uint64_t sign_mask    = (uint64_t) 1 << 63;
 uint64_t quiet_mask   = (uint64_t) 1 << 51;
 uint64_t payload_mask = ((uint64_t) 1 << 51) - 1;
@@ -39,7 +31,13 @@ uint64_t payload_mask = ((uint64_t) 1 << 51) - 1;
 /* Extract the unsigned representation of d. */
 uint64_t bitsof(double d)
 {
-        union ieee t;
+        /* We use type-punning through the following union type to
+         * extract the unsigned representation of a double.
+         */
+        union ieee {
+                uint64_t u;
+                double   d;
+        } t;
 
         t.d = d;
         return t.u;
