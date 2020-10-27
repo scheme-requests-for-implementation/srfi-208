@@ -24,9 +24,9 @@
 #include <stdio.h>
 #include <math.h>
 
-uint64_t sign_mask    = (uint64_t) 1 << 63;
-uint64_t quiet_mask   = (uint64_t) 1 << 51;
-uint64_t payload_mask = ((uint64_t) 1 << 51) - 1;
+const uint64_t sign_mask    = (uint64_t) 1 << 63;
+const uint64_t quiet_mask   = (uint64_t) 1 << 51;
+const uint64_t payload_mask = ((uint64_t) 1 << 51) - 1;
 
 /* Extract the unsigned representation of d. */
 uint64_t bitsof(double d)
