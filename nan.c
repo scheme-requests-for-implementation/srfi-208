@@ -86,3 +86,22 @@ bool nan_equal(double nan1, double nan2)
         echknan(nan2, "nan_equal");
         return bitsof(nan1) == bitsof(nan2);
 }
+
+/* (make-nan)  Return a NaN with characteristics determined by
+ * the arguments.
+ */
+double make_nan(bool neg, bool quiet, unsigned long pay)
+{
+        union ieee t;
+
+        t.d = NAN;
+        if (neg)
+                t.u |= sign_mask;
+        if (quiet)
+                t.u |= quiet_mask;
+        if (pay > payload_mask)
+                fprintf(stderr, "make_nan: %lx: invalid payload\n", pay);
+        else
+                t.u |= pay;
+        return t.d;
+}
