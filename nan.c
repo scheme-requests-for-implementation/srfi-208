@@ -76,3 +76,11 @@ uint64_t nan_payload(double nan)
         echknan(nan, "nan_payload");
         return bitsof(nan) & payload_mask;
 }
+
+/* (nan=?)  Return true if nan1 and nan2 have the same bit rep. */
+bool nan_equal(double nan1, double nan2)
+{
+        echknan(nan1, "nan_equal");
+        echknan(nan2, "nan_equal");
+        return bitsof(nan1) == bitsof(nan2);
+}
