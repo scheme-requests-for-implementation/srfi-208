@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "nan.h"
+
 /* We use type-punning through the following union type to
  * extract the unsigned representation of a double.
  */
