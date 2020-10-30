@@ -1,0 +1,17 @@
+;;; Sample SRFI 208 FFI definitions for chibi-scheme.
+;;;
+;;; Compile to C by running:
+;;;
+;;;   chibi-ffi nan-chibi.stub
+;;;
+(c-include "nan.h")
+
+(define-c boolean (nan-negative? nan_negative) (double))
+
+(define-c boolean (nan-quiet? nan_quiet) (double))
+
+(define-c unsigned-long nan_payload (double))
+
+(define-c boolean (nan=? nan_equal) (double double))
+
+(define-c double make_nan (boolean boolean unsigned-long))

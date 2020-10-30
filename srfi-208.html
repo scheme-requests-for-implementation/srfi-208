@@ -75,6 +75,10 @@ If <em>nan1</em> and <em>nan2</em> are of different precisions,
 the lower-precision value is converted to at least the precision
 of the other value.</p>
 
+<p><code>(make-nan </code><em>negative quiet payload</em><code>)</code></p>
+<p>Returns a NaN with the specified sign (boolean), quiet bit (boolean),
+and payload (positive exact integer).</p>
+
 <h2 id="implementation">Implementation</h2>
 
 <p>The sample implementation appears in the repository
