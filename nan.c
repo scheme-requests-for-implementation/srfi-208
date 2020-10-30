@@ -38,6 +38,15 @@ const uint64_t sign_mask    = (uint64_t) 1 << 63;
 const uint64_t quiet_mask   = (uint64_t) 1 << 51;
 const uint64_t payload_mask = ((uint64_t) 1 << 51) - 1;
 
+union binary32 {
+        uint32_t u;
+        float    f;
+};
+
+const uint32_t fsign_mask    = (uint32_t) 1 << 31;
+const uint32_t fquiet_mask   = (uint32_t) 1 << 22;
+const uint32_t fpayload_mask = ((uint32_t) 1 << 22) - 1;
+
 /* Extract the unsigned representation of d. */
 uint64_t bitsof(double d)
 {
@@ -106,4 +115,78 @@ double make_nan(bool neg, bool quiet, unsigned long pay)
         else
                 t.u |= pay;
         return t.d;
+}
+
+/* Single-float versions */
+
+/* Extract the unsigned representation of f. */
+uint32_t fbitsof(float f)
+{
+        union binary32 t;
+
+        t.f = f;
+        return t.u;
+}
+
+/* Warn if f is not a NaN.  In a real implementation, this would
+ * create an error condition of some sort.
+ */
+void efchknan(float f, const char *caller)
+{
+        if (fpclassify(f) != FP_NAN)
+                fprintf(stderr, "%s: %f is not a NaN value.\n", caller, f);
+}
+
+/* (single) (nan-negative?)  Return true if the sign bit of nan is set,
+ * and false otherwise.
+ */
+bool fnan_negative(float nan)
+{
+        efchknan(nan, "nan_negative");
+        return (bool) (fbitsof(nan) & fsign_mask);
+}
+
+/* (single) (nan-quiet?)  Return true if the quiet bit of nan is set,
+ * and false otherwise.
+ */
+bool fnan_quiet(float nan)
+{
+        efchknan(nan, "nan_quiet");
+        return (bool) (fbitsof(nan) & fquiet_mask);
+}
+
+/* (single) (nan-payload)  Return the payload of nan. */
+unsigned int fnan_payload(float nan)
+{
+        efchknan(nan, "nan_payload");
+        return fbitsof(nan) & fpayload_mask;
+}
+
+/* (single) (nan=?)  Return true if nan1 and nan2 have the same
+ * bit representation.
+ */
+bool fnan_equal(float nan1, float nan2)
+{
+        efchknan(nan1, "nan_equal");
+        efchknan(nan2, "nan_equal");
+        return fbitsof(nan1) == fbitsof(nan2);
+}
+
+/* (single) (make-nan)  Return a NaN with characteristics determined by
+ * the arguments.
+ */
+float fmake_nan(bool neg, bool quiet, unsigned int pay)
+{
+        union binary32 t;
+
+        t.f = NAN;
+        if (neg)
+                t.u |= fsign_mask;
+        if (quiet)
+                t.u |= fquiet_mask;
+        if (pay > fpayload_mask)
+                fprintf(stderr, "fmake_nan: %x: invalid payload\n", pay);
+        else
+                t.u |= pay;
+        return t.f;
 }
