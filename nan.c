@@ -84,7 +84,7 @@ bool nan_quiet(double nan)
 }
 
 /* (nan-payload)  Return the payload of nan. */
-uint64_t nan_payload(double nan)
+unsigned long nan_payload(double nan)
 {
         echknan(nan, "nan_payload");
         return bitsof(nan) & payload_mask;
