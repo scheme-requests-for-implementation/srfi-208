@@ -29,7 +29,7 @@
 /* We use type-punning through the following union type to
  * extract the unsigned representation of a double.
  */
-union ieee {
+union binary64 {
         uint64_t u;
         double   d;
 };
@@ -41,7 +41,7 @@ const uint64_t payload_mask = ((uint64_t) 1 << 51) - 1;
 /* Extract the unsigned representation of d. */
 uint64_t bitsof(double d)
 {
-        union ieee t;
+        union binary64 t;
 
         t.d = d;
         return t.u;
@@ -94,7 +94,7 @@ bool nan_equal(double nan1, double nan2)
  */
 double make_nan(bool neg, bool quiet, unsigned long pay)
 {
-        union ieee t;
+        union binary64 t;
 
         t.d = NAN;
         if (neg)
