@@ -9,7 +9,7 @@
   <body>
     <h1><a href="https://srfi.schemers.org/"><img class="srfi-logo" src="https://srfi.schemers.org/srfi-logo.svg" alt="SRFI logo" /></a>208: NaN procedures</h1>
 
-<p>by Emmanuel Medernach (concept), John Cowan (editor), Wolfgang Corcoran-Mathe (implementation)</p>
+<p>by Emmanuel Medernach (design), John Cowan (editor), Wolfgang Corcoran-Mathe (implementation)</p>
 
 <h2 id="status">Status</h2>
 
@@ -55,6 +55,19 @@ both <code>nan?</code> and <code>real?</code>,
 as <a href="http://www.catb.org/jargon/html/N/nasal-demons.html">
 demons may fly out of your nose</a>.</p>
 
+<p><code>(make-nan </code><em>negative? quiet? payload</em> [<em>float</em>]<code>)</code>
+<p>Returns a NaN whose sign bit is equal to <em>negative?</em>
+(<code>#t</code> for negative, <code>#f</code> for positive),
+whose quiet bit is equal to <em>quiet?</em>.
+(<code>#t</code> for quiet, <code>#f</code> for signaling),
+and whose payload is the positive exact integer <em>payload</em>.
+</p>
+<p>If the optional argument <em>float</em> is provided,
+the NaN is represented using the same number of bits
+as <em>float</em>.
+The default value is 0.0.
+</p>
+
 <p><code>(nan-negative? </code><em>nan</em><code>)</code></p>
 <p>Returns <code>#t</code> if the sign bit of <em>nan</em> is 1 and <code>#f</code> otherwise.</p>
 <p><code>(nan-quiet? </code><em>nan</em><code>)</code></p>
@@ -74,10 +87,6 @@ and payload; and <code>#f</code> otherwise.
 If <em>nan1</em> and <em>nan2</em> are of different precisions,
 the lower-precision value is converted to at least the precision
 of the other value.</p>
-
-<p><code>(make-nan </code><em>negative quiet payload</em><code>)</code></p>
-<p>Returns a NaN with the specified sign (boolean), quiet bit (boolean),
-and payload (positive exact integer).</p>
 
 <h2 id="implementation">Implementation</h2>
 
