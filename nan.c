@@ -98,8 +98,12 @@ bool nan_equal(double nan1, double nan2)
         return bitsof(nan1) == bitsof(nan2);
 }
 
-/* (make-nan)  Return a NaN with characteristics determined by
+/* Return a NaN with characteristics determined by
  * the arguments.
+ *
+ * It is expected that a Scheme implementation of make-nan will
+ * dispatch to this function or to fmake_nan() as determined by
+ * make-nan's optional `float' argument.
  */
 double make_nan(bool neg, bool quiet, unsigned long pay)
 {
@@ -172,8 +176,12 @@ bool fnan_equal(float nan1, float nan2)
         return fbitsof(nan1) == fbitsof(nan2);
 }
 
-/* (single) (make-nan)  Return a NaN with characteristics determined by
+/* (single)  Return a NaN with characteristics determined by
  * the arguments.
+ *
+ * It is expected that a Scheme implementation of make-nan will
+ * dispatch to this function or to make_nan() as determined by
+ * make-nan's optional `float' argument.
  */
 float fmake_nan(bool neg, bool quiet, unsigned int pay)
 {
