@@ -1,6 +1,6 @@
 * SRFI 208: NaN procedures
 
-** by Emmanuel Medernach (concept), John Cowan (editor), and Wolfgang Corcoran-Mathe (implementation)
+** by Emmanuel Medernach (design), John Cowan (editor), and Wolfgang Corcoran-Mathe (implementation)
 
 
 
