@@ -80,7 +80,7 @@ as <a href="http://www.catb.org/jargon/html/N/nasal-demons.html">
 demons may fly out of your nose</a> if you try.</p>
 
 <h3>Procedures</h3>
-<p><code>(make-nan </code><em>negative? quiet? payload</em> [<em>float</em>]<code>)</code>
+<p><code>(make-nan </code><em>negative?</em> <em>quiet?</em> <em>payload</em> [<em>float</em>]<code>)</code>
 <p>Returns a NaN whose sign bit is equal to <em>negative?</em>
 (<code>#t</code> for negative, <code>#f</code> for positive),
 whose quiet bit is equal to <em>quiet?</em>
@@ -105,7 +105,7 @@ available precision.
 <p><code>(nan-payload </code><em>nan</em><code>)</code></p>
 <p>Returns the payload bits of <em>nan</em>
 as a positive exact integer.</p>
-<p><code>(nan=? </code><em>nan1 nan2</em><code>)</code></p>
+<p><code>(nan=? </code><em>nan1</em> <em>nan2</em><code>)</code></p>
 <p>Returns <code>#t</code> if <em>nan1</em> and <em>nan2</em> have the same sign, quiet bit,
 and payload; and <code>#f</code> otherwise.
 If <em>nan1</em> and <em>nan2</em> are of different precisions,
